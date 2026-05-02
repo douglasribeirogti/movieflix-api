@@ -101,7 +101,7 @@
   "paths": {
     "/movies": {
       "get": {
-        "tags": ["Movies"],
+        "tags": ["Movie"],
         "summary": "Listar todos os filmes",
         "responses": {
           "200": {
@@ -122,7 +122,7 @@
     },
     "/movies/{id}": {
       "put": {
-        "tags": ["Movies"],
+        "tags": ["Movie"],
         "summary": "Atualizar um filme",
         "parameters": [
           {
@@ -148,41 +148,76 @@
         "responses": {
           "200": {
             "description": "Filme atualizado com sucesso."
-                },
-            "404": {
-              "description": "Filme não encontrado."
-            },
+          },
+          "404": {
+            "description": "Filme não encontrado."
+          },
           "500": {
             "description": "Falha ao atualizar o registro do filme."
           }
         }
       },
-        "delete": {
-            "tags": ["Movies"],
-            "summary": "Deletar um filme",
-            "parameters": [
-            {
-                "name": "id",
-                "in": "path",
-                "required": true,
-                "description": "ID do filme a ser deletado",
-                "schema": {
-                "type": "integer"
-                }
+      "delete": {
+        "tags": ["Movie"],
+        "summary": "Deletar um filme",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do filme a ser deletado",
+            "schema": {
+              "type": "integer"
             }
-            ],
-            "responses": {
-            "200": {
-                "description": "Filme deletado com sucesso."
-            },
-            "404": {
-                "description": "Filme não encontrado."
-            },
-            "500": {
-                "description": "Falha ao deletar o registro do filme."
-            }
-            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Filme deletado com sucesso."
+          },
+          "404": {
+            "description": "Filme não encontrado."
+          },
+          "500": {
+            "description": "Falha ao deletar o registro do filme."
+          }
         }
+      }
+    },
+    "/movies/{genreName}": {
+      "get": {
+        "tags": ["Movie"],
+        "summary": "Listar filmes por gênero",
+        "parameters": [
+          {
+            "name": "genreName",
+            "in": "path",
+            "required": true,
+            "description": "Nome do gênero para filtrar os filmes",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de filmes filtrada por gênero retornada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha ao buscar os filmes por gênero."
+          }
+        }
+      }
     }
   }
 }
